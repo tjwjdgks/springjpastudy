@@ -1,0 +1,15 @@
+orm table mapping 외에도 많은 기능을 가지고 있음
+
+관계형 데이터베이스와 자바
+    JDBC
+        DataSource / DriverManager
+        Connection
+        PreparedStatement
+    SQL
+        DDL
+        DML
+    데이터베이스에 저장하는 이유 application data 영속화(Persistence) 하기 위해
+    데이터 유지 위해
+
+    JDBC는 application을 데이터 베이스와 연결 시켜주는 connector
+
