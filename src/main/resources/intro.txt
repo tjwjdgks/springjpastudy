@@ -1,0 +1,42 @@
+orm table mapping 외에도 많은 기능을 가지고 있음
+
+관계형 데이터베이스와 자바
+    JDBC
+        DataSource / DriverManager
+        Connection
+        PreparedStatement
+    SQL
+        DDL (data 정의 하는 것, 스키마 만드는 것)
+        DML (데이터를 조작하는 것, 추가 삭제, 업데이트 등등 )
+    데이터베이스에 저장하는 이유 application data 영속화(Persistence) 하기 위해
+    데이터 유지 위해
+
+    JDBC는 application을 데이터 베이스와 연결 시켜주는 connector
+
+    JDBC 자바에 기본으로 들어가 있으며 Postgres등 db 사용하기 위해서는 driver는 의존성으로 설치해야함
+
+    // low code 와 이러한 문제점
+    /*
+    String url = "jdbc:postgresql://localhost:5432/springdata";
+    String user = "seo";
+    String password ="pass";
+
+    try(Connection connection = DriverManager.getConnection(url,user,password)){
+        System.out.println("Connection success");
+        String sql = "INSERT INTO ACCOUNT VALUES(1,'seo', 'pass')";
+        // try with resource block 좋음
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.execute();
+        }
+    } catch (SQLException throwables) {
+        System.out.println("connection fail");
+        throwables.printStackTrace();
+    }
+     */
+    /*
+    문제점
+        SQL을 실행하는 비용이 비싸다.
+        SQL이 데이터베이스 마다 다르다.
+        스키마 바꾸면 코드 모두 수정해야함, 반복적인 코드가 많음
+        type 변환도 힘들다
+     */

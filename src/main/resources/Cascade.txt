@@ -1,0 +1,20 @@
+Cascade
+    엔티티의 상태 변화를 전파 시키는 옵션.
+
+        Transient: JPA가 모르는 상태
+        Persistent: JPA가 관리중인 상태 (1차 캐시, Dirty Checking, Write Behind, ...)
+        Detached: JPA가 더이상 관리하지 않는 상태.
+        Removed: JPA가 관리하긴 하지만 삭제하기로 한 상태.
+
+        객체 생성되어 tabble mapping이 안되었을 경우 transient 상태
+        객체 save 된 경우 persistent 상태 save를 했다고 해서 바로 db에 들어가지 않음
+        persistent에서 객체들 db에 저장되어야 겠다는 시점에 데이터 저장
+        save 호출 했다고 바로 insert query 발생 하는 것은 아니다
+        persistent 상태 hibernate 하는 일 ex ) 1차 캐시 (persistence context에 저장)
+
+        Detached 이미 database에 들어갔던 객체가 session(트랜잭션)이 끝나 서비스로 넘어갔을 때
+        detached로 넘어감
+
+        delete는 실제 commit이 일어날 때 삭제 된다
+
+        parent와 child 도메인에 적용할 수 있다
