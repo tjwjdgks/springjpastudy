@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+/*
 @Component
 @Transactional
 public class CascadeRunner implements ApplicationRunner {
@@ -19,6 +20,7 @@ public class CascadeRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // 가정 : 게시글이 있을 때 게시글을 저장하거나 게시글을 삭제할때 comment도 같이 저장 되거나 삭제 되어야함
+
         Post post = new Post();
         post.setTitle("spring boot ");
 
@@ -37,11 +39,17 @@ public class CascadeRunner implements ApplicationRunner {
         // but save할 때 comment도 같이 저장되게 하고 싶다
         session.save(post);
 
-        /*
-        // remove 할 때 comment도 remove
-        Post post1 = session.get(Post.class, 1L);
-        session.remove(post1); //Cascade remove
-         // Cascade All
-         */
+        Post post1 = session.get(Post.class,post.getId());
+
+
+         //remove 할 때 comment도 remove
+         //Post post1 = session.get(Post.class, 1L);
+         //session.remove(post1); //Cascade remove
+         //Cascade All
+
+
+
     }
 }
+
+ */

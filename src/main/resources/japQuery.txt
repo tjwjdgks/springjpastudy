@@ -1,0 +1,7 @@
+JPA 프로그래밍: Query
+
+    JPQL (HQL)
+      Java Persistence Query Language / Hibernate Query Language
+      데이터베이스 테이블이 아닌, 엔티티 객체 모델 기반으로 쿼리 작성.
+      JPA 또는 하이버네이트가 해당 쿼리를 SQL로 변환해서 실행함.
+
