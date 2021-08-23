@@ -1,0 +1,25 @@
+스프링 데이터   : SQL & NoSQL 저장소 지원 프로젝트의 묶음.
+스프링 데이터 Common : 여러 저장소 지원 프로젝트의 공통 기능 제공.
+스프링 데이터 REST : 저장소의 데이터를 하이퍼미디어 기반 HTTP 리소스로(REST API로) 제공하는 프로젝트.
+스프링 데이터 JPA : 스프링 데이터 Common이 제공하는 기능에 JPA 관련 기능 추가.
+
+스프링 데이터 Common
+    - repository
+        Repository 마커 인터페이스
+        CrudRepository 기능을 정의한 인터페이스
+        PagingAndSortingRepository
+    - null 처리하기
+        @Nullable @NonNull 가능
+        파라미터 또는 메소드에 붙임
+    - query 만들기
+        메소드 이름보고 메소드 이름 분석해서 query 만들기
+        미리 정의된 쿼리 찾아 사용하기 기본 jpql, native query 사용하고 싶다면 navtiveQuery 사용 true
+
+        쿼리 만드는 방법
+            리턴타입 {접두어}{도입부}By{프로퍼티 표현식}(조건식)[(And|Or){프로퍼티 표현식}(조건식)]{정렬 조건} (매개변수)
+
+
+
+스프링 데이터 jpa
+    - repository
+        JpaRepository
