@@ -18,7 +18,35 @@
         쿼리 만드는 방법
             리턴타입 {접두어}{도입부}By{프로퍼티 표현식}(조건식)[(And|Or){프로퍼티 표현식}(조건식)]{정렬 조건} (매개변수)
 
+    - 커스텀 리포지토리
+        쿼리 메소드(쿼리 생성과 쿼리 찾아쓰기)로 해결이 되지 않는 경우 직접 코딩으로 구현 가능.
+        스프링 데이터 리포지토리 인터페이스에 기능 추가.
+        스프링 데이터 리포지토리 기본 기능 덮어쓰기 가능.
 
+        구현 방법
+            커스텀 리포지토리 인터페이스 정의
+            인터페이스 구현 클래스 만들기 (기본 접미어는 Impl)
+            엔티티 리포지토리에 커스텀 리포지토리 인터페이스 추가
+
+    - 기본 리포지토리 커스터 마이징
+        모든 리포지토리에 공통적으로 추가하고 싶은 기능이 있거나 덮어쓰고 싶은 기본 기능이 있다면
+            JpaRepository를 상속 받는 인터페이스 정의
+                @NoRepositoryBean
+            기본 구현체를 상속 받는 커스텀 구현체 만들기
+            @EnableJpaRepositories에 설정
+                    repositoryBaseClass
+    - 도메인 이벤트
+        도메인 관련 이벤트 발생 시키기
+            스프링 프레임워크의 이벤트 관련 기능
+            https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#context-functionality-events
+        도메인 클래스의 변화를 이벤트로 발생 시킨다 -> 이벤트를 이벤트 리스너가 변화를 감지한다. 이벤트 기반의 프로그래밍 가능
+        applicaiton context가 이벤트 publisher이다
+
+        스피링 데이터 이벤트 자동 publishing 기능 제공
+            엔티티에 쌓여 있는 이벤트를 save하는 순간 모두 보내준다
+            @DomainEvents 이벤트를 모아 놓은 곳
+            @AfterDomainEventPublication 이벤트 비워주는 메소드
+            extends AbstractAggregateRoot<E> 로 가능
 
 스프링 데이터 jpa
     - repository

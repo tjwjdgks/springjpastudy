@@ -4,8 +4,11 @@ import me.seo.studyjpa.domain.Comment;
 import me.seo.studyjpa.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
 // 인터페이스 정의
@@ -20,7 +23,10 @@ public interface CommentRepository extends MyInterface<Comment,Long> {
     // 쿼리 만들기
 
     List<Comment> findByCommentContains(String keyword);
-    List<Comment> findByCommentContainsIgnoreCase(String keyword);
+
+    @Async
+    ListenableFuture<List<Comment>> findByCommentContainsIgnoreCase(String keyword);
+
     List<Comment> findByCommentContainsIgnoreCaseAndLikeCountGreaterThan(String keyword, int n);
     Page<Comment> findByLikeCountGreaterThanAndPost(int likeCount, Post post, Pageable pageable);
 

@@ -12,10 +12,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,9 +51,6 @@ class CommentRepositoryTest {
 
         List<Comment> spring = commentRepository.findByCommentContains("spring");
         assertFalse(spring.isEmpty());
-
-        List<Comment> jpa = commentRepository.findByCommentContainsIgnoreCase("jpa");
-        assertEquals(jpa.size(),1);
 
         List<Comment> size = commentRepository.findByCommentContainsIgnoreCaseAndLikeCountGreaterThan("spring",1);
         assertEquals(size.size(),1);
@@ -90,7 +91,30 @@ class CommentRepositoryTest {
         assertEquals(spring.getTotalElements(),2);
         assertEquals(spring.getContent().get(0).getLikeCount(),300);
     }
+    @Test
+    public void asyncTest() throws ExecutionException, InterruptedException {
+        this.createComment("spring data",100);
+        this.createComment("test data" ,50);
 
+        ListenableFuture<List<Comment>> data = commentRepository.findByCommentContainsIgnoreCase("data");
+        System.out.println("==========");
+        System.out.println("is done? " +data.isDone()); // data 불러오기 다 되었는 지 확인
+        //  그냥 Future의 경우 get을 호출한 경우 가져 올때 까지 기다린다
+        //List<Comment> comments = data.get();
+        //comments.forEach(System.out::println);
+        data.addCallback(new ListenableFutureCallback<List<Comment>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                System.out.println(throwable);
+            }
+
+            @Override
+            public void onSuccess(List<Comment> comments) {
+                System.out.println("==============");
+                comments.forEach(System.out::println);
+            }
+        });
+    }
     private Comment getComment(String test1) {
         Comment comment = new Comment();
         comment.setComment(test1);
