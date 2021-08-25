@@ -41,12 +41,24 @@
             https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#context-functionality-events
         도메인 클래스의 변화를 이벤트로 발생 시킨다 -> 이벤트를 이벤트 리스너가 변화를 감지한다. 이벤트 기반의 프로그래밍 가능
         applicaiton context가 이벤트 publisher이다
+        extends AbstractAggregateRoot<E> 로 가능
 
         스피링 데이터 이벤트 자동 publishing 기능 제공
             엔티티에 쌓여 있는 이벤트를 save하는 순간 모두 보내준다
             @DomainEvents 이벤트를 모아 놓은 곳
             @AfterDomainEventPublication 이벤트 비워주는 메소드
-            extends AbstractAggregateRoot<E> 로 가능
+    - 웹 지원 기능
+        도메인 클래스 컨버터
+        @RequestHandler 메소드에서 Pageable과 Sort 매개변수 사용
+            Page 관련 HATEOAS 기능 제공
+                PagedResourcesAssembler
+                PagedResoure
+        Payload 프로젝션
+            요청으로 들어오는 데이터 중 일부만 바인딩 받아오기
+            @ProjectedPayload, @XBRead, @JsonPath
+        요청 쿼리 매개변수를 QueryDSLdml Predicate로 받아오기
+            ?firstname=Mr&lastname=White => Predicate
+
 
 스프링 데이터 jpa
     - repository

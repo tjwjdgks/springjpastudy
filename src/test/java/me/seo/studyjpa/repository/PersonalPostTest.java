@@ -1,9 +1,12 @@
 package me.seo.studyjpa.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import me.seo.studyjpa.domain.PersonalPost;
+import me.seo.studyjpa.domain.QPersonalPost;
 import me.seo.studyjpa.event.PersonalPostPublishedEvent;
 import me.seo.studyjpa.listener.PersonalPostListener;
 import me.seo.studyjpa.testConfig;
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,5 +74,14 @@ class PersonalPostTest {
 
         assertTrue(personalPostRepository.cotains(personalPost));
 
+    }
+    @Test
+    public void querydsltest(){
+        PersonalPost personalPost = new PersonalPost();
+        personalPost.setTitle("test query");
+        personalPostRepository.save(personalPost.publish());
+        BooleanExpression test = QPersonalPost.personalPost.title.contains("test");
+        Optional<PersonalPost> one = personalPostRepository.findOne(test);
+        assertFalse(one.isEmpty());
     }
 }
