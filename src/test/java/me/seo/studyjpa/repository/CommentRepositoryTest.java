@@ -1,6 +1,8 @@
 package me.seo.studyjpa.repository;
 
 import me.seo.studyjpa.domain.Comment;
+import me.seo.studyjpa.domain.Post;
+import org.assertj.core.error.ShouldBeAfterYear;
 import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,8 @@ class CommentRepositoryTest {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    PostRepository postRepository;
     @Test
     @DisplayName("comment custom test")
     public void curd(){
@@ -115,6 +119,32 @@ class CommentRepositoryTest {
             }
         });
     }
+
+    // many to one 인 경우에는 fetch 모드가 eager, 끝이 one으로 끝나는 경우 eager, 끝이 many로 끝나는 경우 lazy
+    @Test
+    public void getComment(){
+        Post post = new Post();
+        post.setTitle("test post");
+
+        Comment comment = new Comment();
+        comment.setComment("comment");
+
+        post.addComment(comment);
+        Post save = postRepository.save(post);
+
+        List<Comment> all = commentRepository.findAll();
+        System.out.println(all.get(0).getComment());
+
+    }
+    @Test
+    public void getCommentTest(){
+        commentRepository.findById(1L);
+        System.out.println("==============");
+        commentRepository.getById(1L);
+    }
+
+
+
     private Comment getComment(String test1) {
         Comment comment = new Comment();
         comment.setComment(test1);
@@ -126,4 +156,6 @@ class CommentRepositoryTest {
         comment.setLikeCount(like);
         commentRepository.save(comment);
     }
+
+
 }

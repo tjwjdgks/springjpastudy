@@ -62,7 +62,6 @@ class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
-
     private void createPost() {
         int postCount = 100;
         while(postCount>0){
