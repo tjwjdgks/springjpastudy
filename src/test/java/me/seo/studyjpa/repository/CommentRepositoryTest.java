@@ -34,6 +34,11 @@ class CommentRepositoryTest {
 
     @Autowired
     PostRepository postRepository;
+
+    // commetRepo specification
+    @Autowired
+    SpecificationComment specificationComment;
+
     @Test
     @DisplayName("comment custom test")
     public void curd(){
@@ -143,7 +148,35 @@ class CommentRepositoryTest {
         commentRepository.getById(1L);
     }
 
+    @Test
+    public void getProjectionTest(){
+        Post post = new Post();
+        post.setTitle("jpa");
 
+        Comment comment = new Comment();
+        comment.setComment("test");
+        comment.setDown(100);
+        comment.setUp(200);
+
+        post.addComment(comment);
+        Post save = postRepository.save(post);
+        List<ProjectionComment> byId = commentRepository.findByPost_id(save.getId(),ProjectionComment.class);
+        assertFalse(byId.isEmpty());
+        System.out.println(byId.get(0).getVotes());
+
+    }
+    // specification test
+    // pageable도 가능하다
+    // 여러가지 조합을 할경우 test 철저하게 하기
+    @Test
+    public void spec(){
+        //specificationComment.findAll(SpecificationCommentSpec.isBest());
+
+        //specificationComment.findAll(SpecificationCommentSpec.isBest().or(SpecificationCommentSpec.isGood()));
+        // pageable
+        Page<Comment> all = specificationComment.findAll(SpecificationCommentSpec.isBest().or(SpecificationCommentSpec.isGood()), PageRequest.of(0, 10));
+
+    }
 
     private Comment getComment(String test1) {
         Comment comment = new Comment();

@@ -127,3 +127,53 @@
                 (기본값) FETCH: 설정한 엔티티 애트리뷰트는 EAGER 패치 나머지는 LAZY 패치.
                 LOAD: 설정한 엔티티 애트리뷰트는 EAGER 패치 나머지는 기본 패치 전략 따름.
 
+    - projection
+        엔티티의 일부 데이터만 가져오기. entity 속성이 너무 많을 때 일부만 관심이 있을 때 사용
+        둘다 Closed와 Open 프로젝션을 나눌 수 있음
+        인터페이스 기반 프로젝션
+            Nested 프로젝션 가능.
+            Closed 프로젝션
+                쿼리를 최적화 할 수 있다. 가져오려는 애트리뷰트가 뭔지 알고 있으니까.
+                Java 8의 디폴트 메소드를 사용해서 연산을 할 수 있다.
+            Open 프로젝션
+                @Value(SpEL)을 사용해서 연산을 할 수 있다. 스프링 빈의 메소드도 호출 가능.
+                쿼리 최적화를 할 수 없다. SpEL을 엔티티 대상으로 사용하기 때문에.
+        클래스 기반 프로젝션
+            DTO
+            롬복 @Value로 코드 줄일 수 있음
+
+    -Specifications
+        에릭 에반스의 책 DDD에서 언급하는 Specification 개념을 차용 한 것으로 QueryDSL의 Predicate와 비슷하다
+        https://docs.jboss.org/hibernate/stable/jpamodelgen/reference/en-US/html_single/
+        조건절을 스펙으로 정의 가능, 스펙끼리 조합 가능
+        typesafe query 제공 라이브러리 보통 entity 기반 code generation을 해서 관련 프로퍼티 type safe하게 사용 가능하게 한다
+        패키징 할 때 maven 플러그인 설정 해야 되는 경우 도 있음
+            관련 plugin
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <version>2.0.5</version>
+                <executions>
+                    <execution>
+                        <id>process</id>
+                        <goals>
+                                <goal>process</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <processors>
+                                <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+                            </processors>
+                         </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-jpamodelgen</artifactId>
+                        <version>${hibernate.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+

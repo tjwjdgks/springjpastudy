@@ -1,5 +1,6 @@
 package me.seo.studyjpa.repository;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import me.seo.studyjpa.domain.PersonalPost;
 import me.seo.studyjpa.domain.QPersonalPost;
@@ -18,7 +19,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,4 +84,5 @@ class PersonalPostTest {
         Optional<PersonalPost> one = personalPostRepository.findOne(test);
         assertFalse(one.isEmpty());
     }
+
 }

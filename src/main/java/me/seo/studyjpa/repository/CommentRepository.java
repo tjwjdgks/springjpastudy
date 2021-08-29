@@ -45,4 +45,16 @@ public interface CommentRepository extends MyInterface<Comment,Long> {
     // 프록시 객체만 있는 경우 ID 값을 제외한 나머지 값을 사용하기 전까지는 실제 DB 에 액세스 하지 않기 때문에 SELECT 쿼리가 날아가지 않는다.
     @EntityGraph(attributePaths="post")
     Optional<Comment> getById(Long id);
+
+
+    // projection
+    // ProjectionComment 인터페이스 Comment 일부 정보 추출
+    // Closed 방식, 한정적인 projection. 우리가 정해놓은 것만 가져온다
+    // sql 최적화, 우리가 원하는 컬럼만 가져온다
+    //List<ProjectionComment> findByPost_Id(Long id);
+
+    // return type은 override 안되므로 제네릭 사용해서 override 가능
+    // 다양한 프로젝션 사용가능
+    <T> List<T> findByPost_id(Long id , Class<T> type);
+
 }

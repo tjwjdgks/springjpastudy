@@ -18,6 +18,9 @@ public class Comment {
 
     private String comment;
 
+    private boolean best;
+    private int up;
+    private int down;
     private Integer likeCount;
     @ManyToOne(fetch = FetchType.LAZY) // 기본은 eager
     private Post post;

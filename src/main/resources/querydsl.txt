@@ -4,3 +4,9 @@
                 Optional<T> findOne(Predicate): 이런 저런 조건으로 무언가 하나를 찾는다.
                 List<T>|Page<T>|.. findAll(Predicate): 이런 저런 조건으로 무언가 여러개를 찾는다.
         의존성 추가 후 mvn compile 실행
+
+        Predicate 사용 가능
+            TestAccountRepositoryTest 참고
+
+        custom 레포지토리
+            querydsltest 와 PersonalPostRepository 참고
