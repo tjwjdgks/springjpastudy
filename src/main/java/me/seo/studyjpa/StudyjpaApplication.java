@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -20,7 +21,7 @@ import java.sql.SQLException;
 // query 전략 사용 default create if not found ,@EnableJpaRepositories(queryLookupStrategy = QueryLookupStrategy.Key.CREATE)
 @Import(register.class) // 등록
 // @EnableAsync asynce 활성화
-
+@EnableJpaAuditing(auditorAwareRef = "accountAuditAware") // auditing 기능 활성화 // 주의 빈이름으로 설정한다
 public class StudyjpaApplication {
 
     public static void main(String[] args) {

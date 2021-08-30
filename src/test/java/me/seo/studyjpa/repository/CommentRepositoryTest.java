@@ -9,10 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.*;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
@@ -26,8 +25,10 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
+@ExtendWith(SpringExtension.class) // 슬라이싱 테스트
+@DataJpaTest // 슬라이싱 테스트
+//@SpringBootTest // 전체 테스트
+//@ActiveProfiles("test")  // 전체 테스트
 class CommentRepositoryTest {
     @Autowired
     CommentRepository commentRepository;
@@ -177,7 +178,35 @@ class CommentRepositoryTest {
         Page<Comment> all = specificationComment.findAll(SpecificationCommentSpec.isBest().or(SpecificationCommentSpec.isGood()), PageRequest.of(0, 10));
 
     }
+    // query by example test
+    // 단점 조건의 유연하게 만들지 못함 , 제한적이다 , 이런 기능이 있다 정도로...
+    @Test
+    public void qbe(){
+        // 이 자체가 prove = 필드에 어떤 값을 가지고 있는 도메인 객체
+        Comment prove = new Comment();
+        prove.setBest(true);
 
+        // best만 확인 나머지 무시
+        //ExampleMatcher는 Prove에 들어있는 그 필드의 값들을 어떻게 쿼리할 데이터와 비교할지 정의한 것.
+        // 문자열은 starts/contains/ends/regex 가 가능하고 그밖에 property는 값이 정확히 일치해야 한다.
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny();
+        //Example은 그 둘을 하나로 합친 것. 이걸로 쿼리를 함.
+        Example<Comment>example = Example.of(prove,exampleMatcher);
+
+        commentRepository.findAll(example);
+
+    }
+    /*
+    @Test
+    public void auditingtest(){
+        Comment comment = new Comment();
+        comment.setComment("test");
+        Comment save = commentRepository.save(comment);
+        List<Comment> all = commentRepository.findAll();
+
+    }
+
+     */
     private Comment getComment(String test1) {
         Comment comment = new Comment();
         comment.setComment(test1);
